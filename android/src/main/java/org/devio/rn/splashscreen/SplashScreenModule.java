@@ -4,6 +4,9 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
 /**
  * SplashScreen
  * 启动屏
@@ -13,8 +16,19 @@ import com.facebook.react.bridge.ReactMethod;
  * Email:crazycodeboy@gmail.com
  */
 public class SplashScreenModule extends ReactContextBaseJavaModule{
-    public SplashScreenModule(ReactApplicationContext reactContext) {
+
+    public SplashScreenModule(final ReactApplicationContext reactContext) {
         super(reactContext);
+        Runnable callback = new Runnable() {
+
+          public void run() {
+            WritableMap params = Arguments.createMap();
+            reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("SPLASHSCREEN_DONE", params);
+          };
+
+        };
+        SplashScreen.setFinishedAnimationCallback(callback);
     }
 
     @Override
@@ -36,5 +50,10 @@ public class SplashScreenModule extends ReactContextBaseJavaModule{
     @ReactMethod
     public void hide() {
         SplashScreen.hide(getCurrentActivity());
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public boolean isShowing() {
+        return SplashScreen.isShowing();
     }
 }

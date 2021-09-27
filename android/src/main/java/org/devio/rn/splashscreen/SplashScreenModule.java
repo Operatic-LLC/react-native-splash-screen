@@ -19,7 +19,6 @@ public class SplashScreenModule extends ReactContextBaseJavaModule{
 
     public SplashScreenModule(final ReactApplicationContext reactContext) {
         super(reactContext);
-        WritableMap params = Arguments.createMap();
         reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                                   .emit("SPLASHSCREEN_LOADING", params);
         Runnable callback = new Runnable() {

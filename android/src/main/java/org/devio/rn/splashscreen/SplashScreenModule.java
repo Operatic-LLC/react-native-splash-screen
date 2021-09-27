@@ -16,12 +16,21 @@ import com.facebook.react.bridge.Arguments;
  * Email:crazycodeboy@gmail.com
  */
 public class SplashScreenModule extends ReactContextBaseJavaModule{
-
+    Timer loadingStartEventTimer;
     public SplashScreenModule(final ReactApplicationContext reactContext) {
         super(reactContext);
-        WritableMap params = Arguments.createMap();
-        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                                  .emit("SPLASHSCREEN_LOADING", params);
+        loadingStartEventTimer = new Timer().scheduleAtFixedRate(new TimerTask(){
+                @Override
+                public void run(){
+                    if(reactContext.hasActiveCatalystInstance()){
+                        WritableMap params = Arguments.createMap();
+                            reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("SPLASHSCREEN_LOADING", params);
+                            loadingStartEventTimer.cancel()
+                    }
+                }
+            },0,50);
+
         Runnable callback = new Runnable() {
 
           public void run() {

@@ -26,7 +26,7 @@ public class SplashScreenModule extends ReactContextBaseJavaModule{
                         WritableMap params = Arguments.createMap();
                             reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("SPLASHSCREEN_LOADING", params);
-                            loadingStartEventTimer.cancel()
+                            loadingStartEventTimer.cancel();
                     }
                 }
             },0,50);

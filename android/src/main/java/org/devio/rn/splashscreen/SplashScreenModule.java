@@ -19,8 +19,6 @@ public class SplashScreenModule extends ReactContextBaseJavaModule{
 
     public SplashScreenModule(final ReactApplicationContext reactContext) {
         super(reactContext);
-        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                                  .emit("SPLASHSCREEN_LOADING", params);
         Runnable callback = new Runnable() {
 
           public void run() {
@@ -28,6 +26,7 @@ public class SplashScreenModule extends ReactContextBaseJavaModule{
             reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("SPLASHSCREEN_DONE", params);
           };
+
         };
         SplashScreen.setFinishedAnimationCallback(callback);
     }
